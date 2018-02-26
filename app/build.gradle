@@ -3,25 +3,30 @@ dependencies {
     if (is_gradle_3()) {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
         testImplementation 'junit:junit:4.12'
-        implementation "com.android.support:appcompat-v7:23.1.1"
+        implementation "com.android.support:appcompat-v7:26.0.1"
         implementation 'com.android.support.constraint:constraint-layout:1.0.2'
         androidTestImplementation 'com.android.support.test:runner:1.0.1'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
         implementation("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
         annotationProcessor("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
         compileOnly("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
-
+        compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+        compile 'io.reactivex:rxjava:1.0.14'
+        compile 'io.reactivex:rxandroid:1.0.1'
         implementation "com.android.support:multidex:1.0.1"
     } else {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         testCompile 'junit:junit:4.12'
-        compile "com.android.support:appcompat-v7:23.1.1"
+        compile "com.android.support:appcompat-v7:26.0.1"
         implementation 'com.android.support.constraint:constraint-layout:1.0.2'
         androidTestImplementation 'com.android.support.test:runner:1.0.1'
         androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
         compile("com.tencent.tinker:tinker-android-lib:${TINKER_VERSION}") { changing = true }
         provided("com.tencent.tinker:tinker-android-anno:${TINKER_VERSION}") { changing = true }
         compile "com.android.support:multidex:1.0.1"
+        compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.4@aar'
+        compile 'io.reactivex:rxjava:1.0.14'
+        compile 'io.reactivex:rxandroid:1.0.1'
     }
 }
 
@@ -63,6 +68,7 @@ android {
         versionCode 1
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
         /**
          * buildConfig can change during patch!
          * we can use the newly value when patch
@@ -86,6 +92,11 @@ android {
             debuggable true
             minifyEnabled false
             signingConfig signingConfigs.debug
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
@@ -115,11 +126,11 @@ ext {
 
     //for normal build
     //old apk file to build patch apk
-    tinkerOldApkPath = "${bakPath}/app-debug-1018-17-32-47.apk"
+    tinkerOldApkPath = "${bakPath}/app-debug-0226-15-54-28.apk"
     //proguard mapping file to build patch apk
     tinkerApplyMappingPath = "${bakPath}/app-debug-1018-17-32-47-mapping.txt"
     //resource R.txt to build patch apk, must input if there is resource changed
-    tinkerApplyResourcePath = "${bakPath}/app-debug-1018-17-32-47-R.txt"
+    tinkerApplyResourcePath = "${bakPath}/app-debug-0226-15-54-28-R.txt"
 
     //only use for build all flavor, if not, just ignore this field
     tinkerBuildFlavorDirectory = "${bakPath}/app-1018-17-32-47"
